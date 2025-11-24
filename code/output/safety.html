@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Air Quality Safety Guide</title>
+
+<style>
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        background: linear-gradient(135deg, #d7e1ec, #f8fbff);
+        margin: 0;
+        padding: 40px;
+        text-align: center;
+    }
+
+    /* Fullscreen background */
+    .bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+        filter: brightness(55%);
+        z-index: -1;
+        transition: background-image 0.5s ease;
+    }
+
+    h1 {
+        font-size: 34px;
+        margin-bottom: 25px;
+        color: #e7e1e1;
+        letter-spacing: 1px;
+    }
+
+    .container {
+        width: 65%;
+        margin: auto;
+        backdrop-filter: blur(12px);
+        background: rgba(255, 255, 255, 0.45);
+        padding: 30px;
+        border-radius: 18px;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.20);
+        animation: fadein 0.6s ease;
+    }
+
+    @keyframes fadein {
+        from { opacity: 0; transform: translateY(15px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .aqi-tag {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .aqi-meter {
+        width: 180px;
+        height: 180px;
+        border-radius: 50%;
+        margin: 20px auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 32px;
+        font-weight: bold;
+        color: white;
+        box-shadow: 0 0 18px rgba(0,0,0,0.3);
+    }
+
+    .tips {
+        text-align: left;
+        width: 75%;
+        margin: auto;
+        margin-top: 20px;
+        font-size: 18px;
+        line-height: 1.7;
+    }
+
+    ul { padding-left: 20px; }
+
+    .good { background: #2ecc71; }
+    .moderate { background: #f39c12; }
+    .hazard { background: #e74c3c; }
+</style>
+</head>
+
+<body>
+
+<p class="bg"></p>
+
+<h1> Real-Time Air Quality Safety Guide</h1>
+<div id="info" class="container">Loading...</div>
+
+<script>
+    const params = new URLSearchParams(window.location.search);
+    let color = params.get("color");
+    const box = document.getElementById("info");
+    const bg = document.querySelector(".bg");
+
+    let AQI = {
+        'green': Math.floor(Math.random() * 50) + 1,
+        'orange': Math.floor(Math.random() * 100) + 101,
+        'red': Math.floor(Math.random() * 200) + 201
+    };
+
+    if (color === "red") {
+        bg.style.backgroundImage = "url('https://plus.unsplash.com/premium_photo-1754337748062-8d611b1f3f92?q=80&w=1075&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')";
+        box.innerHTML = `
+            <h2 class="aqi-tag">⚠ Hazardous Air Quality</h2>
+            <div class="aqi-meter hazard">${AQI['red']}</div>
+
+            <div class="tips">
+                <h3>Safety Precautions</h3>
+                <ul>
+                    <li>Limit all outdoor activity — air quality is extremely dangerous.</li>
+                    <li>Wear a certified N95/KN95 mask before stepping outside.</li>
+                    <li>Keep windows and doors tightly closed.</li>
+                    <li>Use HEPA air purifiers to maintain clean indoor air.</li>
+                    <li>People with asthma or heart conditions should remain indoors.</li>
+                    <li>Stay hydrated to reduce lung irritation.</li>
+                    <li>Monitor local health alerts and avoid traveling in polluted zones.</li>
+                </ul>
+
+                <h3> Environmental Tip</h3>
+                <p>Reduce vehicle use during high AQI days—every step helps lower pollution levels.</p>
+            </div>
+        `;
+    }
+
+    else if (color === "orange") {
+        bg.style.backgroundImage = "url('https://images.unsplash.com/photo-1748414588300-0e747e012cd2?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8UE9MTFVURUQlMjA1MCUyNXxlbnwwfHwwfHx8MA%3D%3D')";
+        box.innerHTML = `
+            <h2 class="aqi-tag">⚠ Moderate Air Quality</h2>
+            <div class="aqi-meter moderate">${AQI['orange']}</div>
+
+            <div class="tips">
+                <h3>⚠ Safety Recommendations</h3>
+                <ul>
+                    <li>Sensitive groups should reduce outdoor activity.</li>
+                    <li>If you experience breathing discomfort, wear a mask.</li>
+                    <li>Avoid heavy exercise or running outdoors.</li>
+                    <li>Keep windows partially closed during peak hours.</li>
+                    <li>Use a basic air purifier indoors if available.</li>
+                    <li>Drink warm water to avoid throat irritation.</li>
+                </ul>
+
+                <h3> Health Tip</h3>
+                <p>Consider using saline nasal spray to reduce discomfort from polluted air.</p>
+            </div>
+        `;
+    }
+
+    else {
+        bg.style.backgroundImage = "url('https://images.unsplash.com/photo-1420593248178-d88870618ca0?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')";
+        box.innerHTML = `
+            <h2 class="aqi-tag"> Good Air Quality</h2>
+            <div class="aqi-meter good">${AQI['green']}</div>
+
+            <div class="tips">
+                <h3> Enjoy Your Day!</h3>
+                <ul>
+                    <li>Perfect time for outdoor activities like jogging and cycling.</li>
+                    <li>Open your windows to allow fresh air circulation inside your home.</li>
+                    <li>No protective measures required for any age group.</li>
+                    <li>Spend time in nature—your lungs will thank you!</li>
+                    <li>Take advantage of clean air by exercising outside.</li>
+                </ul>
+
+                <h3>💡 Health Tip</h3>
+                <p>Breathing clean air improves lung function and supports overall well-being—enjoy safe outdoor time today!</p>
+            </div>
+        `;
+    }
+</script>
+
+</body>
+</html>
